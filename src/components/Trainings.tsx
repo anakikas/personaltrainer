@@ -1,13 +1,16 @@
 import {useState, useEffect} from 'react';
 import {DataGrid, GridToolbar} from '@mui/x-data-grid';
 import dayjs from 'dayjs';
-import { TextField, Box } from '@mui/material';
+import { Snackbar, Box, Button } from '@mui/material';
+import Addtraining from './Addtraining'
 
 export default function Trainings () {
 
     const [trainings, setTrainings] = useState([]);
+    const [open, setOpen] = useState(false);
+    
    
-    useEffect(() => {
+    useEffect(() => {fetchData(); }, []);
       const fetchData = async () => {
         const response = await fetch('https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/trainings');
         const data = await response.json();
@@ -26,9 +29,28 @@ export default function Trainings () {
     
         setTrainings(trainingsWithCustomer);
       };
-    
-      fetchData();
-    }, []);
+
+
+    const deleteTraining = (link) => {
+      if (window.confirm('Are you sure?')) {
+        fetch(link, { method: 'DELETE' })
+          .then(() => {
+            fetchData();
+            setOpen(true);
+          })
+          .catch(err => console.error(err));
+      }
+    };
+
+    const saveTraining = (training) => {
+      fetch('https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/trainings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(training)
+      })
+        .then(() => fetchData())
+        .catch(err => console.error(err));
+    };
 
     const columns = [
 
@@ -43,10 +65,27 @@ export default function Trainings () {
           field: 'activity',headerName: 'Activity',width: 180,},
         {
           field: 'customerName',headerName: 'Customer',width: 180,},
+        {
+          field: 'delete',
+          headerName: 'Delete',
+          width: 100,
+          sortable: false,
+          renderCell: (params: any) => (
+            <Button
+              color="error"
+              size="small"
+              onClick={() => deleteTraining(params.row._links.self.href)}
+            >Delete</Button>
+          )
+        }
       ];
 
 
     return (
+      <Box sx={{ p:2}}>
+
+       <Addtraining addTraining={saveTraining} />
+
         <DataGrid
           rows={trainings}
           columns={columns}
@@ -54,5 +93,12 @@ export default function Trainings () {
           slots={{ toolbar: GridToolbar }}
           slotProps={{ toolbar: { showQuickFilter: true } }}
         />
+        <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(false)}
+        message="Training deleted"
+        />
+    </Box>
     )
 }
