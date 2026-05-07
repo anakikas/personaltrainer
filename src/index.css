@@ -5,6 +5,11 @@ body,
   margin: 0;
 }
 
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
 .rbc-calendar {
   height: 100% !important;
 }

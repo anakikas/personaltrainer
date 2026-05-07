@@ -1,6 +1,7 @@
 import './App.css'
 import Trainings from './components/Trainings'
 import Customers from './components/Customers'
+import Statistics from './components/Statistics'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -18,6 +19,7 @@ function App() {
             <Button color="inherit" component={Link} to="/trainings">Trainings</Button>
             <Button color="inherit" component={Link} to="/customers">Customers</Button>
             <Button color="inherit" component={Link} to="/calendar">Calendar</Button>
+            <Button color="inherit" component={Link} to="/statistics">Statistics</Button>
         </Toolbar>
       </AppBar>
 
@@ -26,6 +28,7 @@ function App() {
       <Route path="/trainings" element={<Trainings />} />
       <Route path="/customers" element={<Customers />} />
       <Route path="/calendar" element={<Calendarview />} />
+      <Route path="/statistics" element={<Statistics />} />
     </Routes>
     </div>
   );
