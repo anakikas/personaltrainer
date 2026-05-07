@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { Routes, Route, Link, Navigate } from 'react-router-dom';
+import Calendarview from './components/Calendarview';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
           <Typography variant="h6">Personal trainer</Typography>
             <Button color="inherit" component={Link} to="/trainings">Trainings</Button>
             <Button color="inherit" component={Link} to="/customers">Customers</Button>
+            <Button color="inherit" component={Link} to="/calendar">Calendar</Button>
         </Toolbar>
       </AppBar>
 
@@ -23,6 +25,7 @@ function App() {
       <Route path="/" element={<Navigate to="/customers" />} />
       <Route path="/trainings" element={<Trainings />} />
       <Route path="/customers" element={<Customers />} />
+      <Route path="/calendar" element={<Calendarview />} />
     </Routes>
     </div>
   );

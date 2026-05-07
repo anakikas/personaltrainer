@@ -3,6 +3,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import { Button, Box, Snackbar } from '@mui/material';
 import Addcustomer from './Addcustomer';
 import Editcustomer from './Editcustomer';
+import { CSVLink } from 'react-csv';
 
 export default function Customers () {
 
@@ -89,6 +90,21 @@ export default function Customers () {
     <Box sx={{ p:2}}>
 
       <Addcustomer addCustomer={saveCustomer} />
+      
+      <CSVLink
+        data={customers.map((c: any) => ({
+          firstname: c.firstname,
+          lastname: c.lastname,
+          streetaddress: c.streetaddress,
+          postcode: c.postcode,
+          city: c.city,
+          email: c.email,
+          phone: c.phone
+          }))}
+        filename="customers.csv"
+        >
+        Export CSV
+      </CSVLink>
 
         <DataGrid
               rows={customers}
